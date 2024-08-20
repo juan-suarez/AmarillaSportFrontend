@@ -3,6 +3,7 @@
 import axios, { AxiosHeaders } from "axios"
 import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
+import { json } from "stream/consumers";
 
 export async function login(email:string, password:string) {
   var data = JSON.stringify({
@@ -22,7 +23,6 @@ export async function login(email:string, password:string) {
 
   const validAcces = await axios(config)
     .then(function (response) {
-      console.log(response)
       if(response.data !== 'login successufully'){
         return false
       }
@@ -31,10 +31,11 @@ export async function login(email:string, password:string) {
       const setCookieHeader = headers.get("Set-Cookie") as string[];
 
       if(setCookieHeader){
-        const token = setCookieHeader[0].split(";",)[0].split("=")[1];
-        console.log(token)
+        const decodedToken = decodeURIComponent(setCookieHeader[0].split("=")[1]);
+        const token = decodedToken.split(":")[2].split('"')[1]
         cookies().set('accessToken',token,{
-          secure:false
+          secure:false,
+          httpOnly:true
         })
       }
 
