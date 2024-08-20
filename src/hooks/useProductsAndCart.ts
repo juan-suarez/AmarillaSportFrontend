@@ -2,13 +2,14 @@
 import { useState, useEffect } from 'react'
 import { getProducts, Product } from "@/gateways/products"
 import { CartItem, getStoredCart, saveCartToStorage } from "@/utils/cart-utils"
+import { useRouter } from 'next/router'
 
 export function useProductsAndCart() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [cart, setCart] = useState<Map<number, CartItem>>(() => getStoredCart())
   const [showCart, setShowCart] = useState(false)
-  
+
   function toggleCart() {
     setShowCart(!showCart)
   }

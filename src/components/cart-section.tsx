@@ -1,16 +1,18 @@
-"use client"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet"
 import { useProductsAndCart } from "@/hooks/useProductsAndCart"
 import { ShoppingCartIcon } from "./icons/ShoppingCartIcon"
 import { CartItem as CartItemInterface} from "@/utils/cart-utils"
 import { CartItem } from "./cart-item"
+import { redirect } from "next/navigation"
+import Link from "next/link"
 
 interface props {
   cart: Map<number, CartItemInterface>
 }
 
 export function CartSection( {cart}: props ) {
+  
   const { showCart, toggleCart } = useProductsAndCart()
 
   const totalPrice = Array.from(cart).reduce((total, [, product]) => 
@@ -48,7 +50,9 @@ export function CartSection( {cart}: props ) {
                   <span className="font-medium">Sub total:</span>
                   <span className="font-bold">${totalPrice}</span>
                 </div>
-                <Button className="mt-4">Proceder al pago</Button>
+                
+                  <Button className="mt-4" disabled= {cart.size === 0} ><Link href="/payment">Proceder al pago</Link></Button>
+                
               </div>
             </SheetFooter>
           </div>
