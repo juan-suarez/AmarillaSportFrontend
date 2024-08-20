@@ -3,9 +3,8 @@
 
 import { useProductsAndCart } from "@/hooks/useProductsAndCart"
 import { ProductCard } from "@/components/productCard"
-import { ShoppingCartIcon } from "@/components/icons/ShoppingCartIcon"
-import { Button } from "@/components/ui/button"
 import { Loader } from "./ui/loader"
+import { CartSection } from "./cart-section"
 
 export function Products(): JSX.Element {
   const { products, loading, cart, addToCart, removeFromCart } = useProductsAndCart()
@@ -29,12 +28,7 @@ export function Products(): JSX.Element {
           ))}
         </div>
       </div>
-      <div className="fixed bottom-4 right-4">
-        <Button size="lg">
-          <ShoppingCartIcon className="w-6 h-6 mr-2" />
-          Ver carrito ({cart.size})
-        </Button>
-      </div>
+      <CartSection cart = {cart} />
     </div>
   )
 }

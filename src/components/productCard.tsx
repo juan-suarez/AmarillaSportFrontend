@@ -29,7 +29,7 @@ export function ProductCard({ product, cartQuantity, onAddToCart, onRemoveFromCa
         <h3 className="text-lg font-bold mb-2">{product.name}</h3>
         <p className="text-gray-500 mb-4">{product.description}</p>
         <div className="flex items-center justify-between">
-          <span className="text-primary font-bold">${product.price}</span>
+          <span className="font-bold">${product.price}</span>
           <div className="flex items-center gap-2">
             <Button
               size="sm"
