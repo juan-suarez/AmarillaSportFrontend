@@ -19,7 +19,7 @@ export function CartItem({ product }: CartItemProps) {
       />
       <div>
         <h4 className="font-medium">{product.name}</h4>
-        <p className="text-muted-foreground">${product.price}</p>
+        <p className="text-muted-foreground">${product.price * product.quantity}</p>
       </div>
       <div className="flex items-center gap-2">
         <span className="text-gray-500">{product.quantity}</span>

@@ -27,7 +27,6 @@ export function Payment() {
       paymentInfo.expiry.trim() !== "" &&
       paymentInfo.cvc.trim().length === 3;
     setIsFormValid(isValid);
-    console.log(paymentInfo);
   }, [formState]);
 
   const handleInputChange = (
