@@ -7,6 +7,11 @@ export function useProductsAndCart() {
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [cart, setCart] = useState<Map<number, CartItem>>(() => getStoredCart())
+  const [showCart, setShowCart] = useState(false)
+
+  function toggleCart() {
+    setShowCart(!showCart)
+  }
 
   useEffect(() => {
     loadProducts()
@@ -73,5 +78,5 @@ export function useProductsAndCart() {
     return newCart
   }
 
-  return { products, loading, cart, addToCart, removeFromCart }
+  return { products, loading, cart, addToCart, removeFromCart, showCart, toggleCart }
 }
