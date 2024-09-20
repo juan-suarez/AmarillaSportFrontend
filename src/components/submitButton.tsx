@@ -1,16 +1,18 @@
+'use client';
 import { Dialog, DialogTrigger, DialogContent, DialogClose, DialogHeader, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { useProductsAndCart } from "@/hooks/useProductsAndCart";
 import { CartItem } from "./cart-item";
-import Link from "next/link";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { createTransactionPayload, FormState } from "@/utils/payment";
+import { createTransaction } from "@/gateways/transaction";
 
 interface SubmitButtonProps {
   isFormValid: boolean;
+  formState: FormState;
 }
 
-export function SubmitButton({ isFormValid }: SubmitButtonProps) {
+export function SubmitButton({ isFormValid, formState }: SubmitButtonProps) {
 
   const { cart } = useProductsAndCart();
   const subTotal = Array.from(cart).reduce((total, [, product]) =>
@@ -18,6 +20,11 @@ export function SubmitButton({ isFormValid }: SubmitButtonProps) {
   )
   const deliveryFee = 15000;
   const totalPrice = subTotal + deliveryFee;
+  const transactionPayload = createTransactionPayload(formState,subTotal,deliveryFee,totalPrice, cart);
+
+  const paymentProccess = async () => {
+    await createTransaction(transactionPayload);
+  }
 
   return isFormValid ? (
     <Dialog>
@@ -53,7 +60,7 @@ export function SubmitButton({ isFormValid }: SubmitButtonProps) {
                 <span className="font-bold">${totalPrice}</span>
               </div>
 
-              <Button className="mt-4" disabled={cart.size === 0}>
+              <Button className="mt-4" onClick = {paymentProccess}>
                 Confirmar pago
               </Button>
             </div>

@@ -3,7 +3,6 @@
 import axios, { AxiosHeaders } from "axios"
 import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
-import { json } from "stream/consumers";
 
 export async function login(email:string, password:string) {
   var data = JSON.stringify({

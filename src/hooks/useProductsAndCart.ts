@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { getProducts, Product } from "@/gateways/products"
 import { CartItem, getStoredCart, saveCartToStorage } from "@/utils/cart-utils"
-import { useRouter } from 'next/router'
 
 export function useProductsAndCart() {
   const [products, setProducts] = useState<Product[]>([])

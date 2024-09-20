@@ -65,7 +65,10 @@ export function Payment() {
           handleInputFocus={handleInputFocus}
           focused={focused}
         />
-        <SubmitButton isFormValid={isFormValid} />
+        <SubmitButton 
+          isFormValid={isFormValid}
+          formState = { formState}
+        />
       </form>
     </div>
   );
