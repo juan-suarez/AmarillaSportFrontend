@@ -4,9 +4,44 @@ import Link from "next/link"
 import { CheckCircleIcon, XCircleIcon, HomeIcon } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useEffect, useRef, useState } from "react"
+import { Loader } from "./ui/loader"
+import { confirmTransaction, getTransactionStatus } from "@/gateways/transaction"
+import { useSearchParams } from "next/navigation"
+import { createConfirmTransactionPayload, TransactionStatus } from "@/utils/payment"
 
-export function PaymentStatus({ status = "accepted" }: { status?: "accepted" | "rejected" }) {
-  const isAccepted = status === "accepted"
+export function PaymentStatus() {
+  const reference = useSearchParams().get("ref") as string
+  const [isAccepted,setIsAccepted] = useState(true)
+  const [isLoading, setLoading] = useState(true)
+  const hasConfirmedRef = useRef(false); // Referencia para evitar doble confirmación
+
+  useEffect(() => {
+    if (!hasConfirmedRef.current) {
+      checkAndConfirmTransaction();
+      hasConfirmedRef.current = true; // Marcamos que ya se ha confirmado para evitar repetición
+    }
+  }, []);
+
+  async function checkAndConfirmTransaction() {
+    const status = await getTransactionStatus(reference);
+
+    if (status !== TransactionStatus.Approved && status !== TransactionStatus.Rejected) {
+      const confirmTransactionPayload = createConfirmTransactionPayload(reference, TransactionStatus.Approved);
+      await confirmTransaction(confirmTransactionPayload);
+    }
+
+    // Esperamos 1 segundo para verificar el estado final
+    setTimeout(async () => {
+      const updatedStatus = await getTransactionStatus(reference);
+      setIsAccepted(updatedStatus === TransactionStatus.Approved);
+      setLoading(false);
+    }, 1000);
+  }
+
+  if(isLoading){
+    return <Loader></Loader>
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">

@@ -115,3 +115,26 @@ export const createTransactionPayload = (
     shopping_cart_prodcuts
   }
 }
+
+export enum TransactionStatus {
+  Approved = "APPROVED",
+  Rejected = "REJECTED",
+}
+
+export const createConfirmTransactionPayload = (reference: string, status: TransactionStatus ): ConfirmTransactionPayload => {
+  return {
+    data: [{
+      reference,
+      status
+    }]
+  }
+}
+
+export interface ConfirmTransactionPayload {
+  data: ConfirmTransactionData[]
+}
+
+interface ConfirmTransactionData{
+  reference: string;
+  status: TransactionStatus;
+}

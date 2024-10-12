@@ -2,20 +2,19 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet"
 import { useProductsAndCart } from "@/hooks/useProductsAndCart"
 import { ShoppingCartIcon } from "./icons/ShoppingCartIcon"
-import { CartItem as CartItemInterface} from "@/utils/cart-utils"
+import { CartItem as CartItemInterface } from "@/utils/cart-utils"
 import { CartItem } from "./cart-item"
-import { redirect } from "next/navigation"
 import Link from "next/link"
 
 interface props {
   cart: Map<number, CartItemInterface>
 }
 
-export function CartSection( {cart}: props ) {
-  
+export function CartSection({ cart }: props) {
+
   const { showCart, toggleCart } = useProductsAndCart()
 
-  const totalPrice = Array.from(cart).reduce((total, [, product]) => 
+  const totalPrice = Array.from(cart).reduce((total, [, product]) =>
     total + (product.price * product.quantity), 0
   ).toFixed(2)
 
@@ -50,9 +49,13 @@ export function CartSection( {cart}: props ) {
                   <span className="font-medium">Sub total:</span>
                   <span className="font-bold">${totalPrice}</span>
                 </div>
-                
-                  <Button className="mt-4" disabled= {cart.size === 0} ><Link href="/payment">Proceder al pago</Link></Button>
-                
+
+                <Link href="/payment">
+                  <Button className="mt-4 w-full" disabled={cart.size === 0}>
+                    Proceder al pago
+                  </Button>
+                </Link>
+
               </div>
             </SheetFooter>
           </div>
