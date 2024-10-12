@@ -20,9 +20,9 @@ export function SubmitButton({ isFormValid, formState }: SubmitButtonProps) {
   )
   const deliveryFee = 15000;
   const totalPrice = subTotal + deliveryFee;
-  const transactionPayload = createTransactionPayload(formState,subTotal,deliveryFee,totalPrice, cart);
-
+  
   const paymentProccess = async () => {
+    const transactionPayload = createTransactionPayload(formState,subTotal,deliveryFee,totalPrice, cart);
     await createTransaction(transactionPayload);
   }
 
