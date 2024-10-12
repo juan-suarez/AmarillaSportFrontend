@@ -31,3 +31,9 @@ export function saveCartToStorage(cart: Map<number, CartItem>): void {
     localStorage.removeItem('cart');
   }
 }
+
+export function clearCart(): void{
+  if (typeof window !== 'undefined' && localStorage.getItem('cart')) {
+    localStorage.removeItem('cart');
+  }
+}

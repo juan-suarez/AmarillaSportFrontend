@@ -9,6 +9,7 @@ import { Loader } from "./ui/loader"
 import { confirmTransaction, getTransactionStatus } from "@/gateways/transaction"
 import { useSearchParams } from "next/navigation"
 import { createConfirmTransactionPayload, TransactionStatus } from "@/utils/payment"
+import { clearCart } from "@/utils/cart-utils"
 
 export function PaymentStatus() {
   const reference = useSearchParams().get("ref") as string
@@ -16,21 +17,22 @@ export function PaymentStatus() {
   const [isLoading, setLoading] = useState(true)
   const hasConfirmedRef = useRef(false); // Referencia para evitar doble confirmación
 
+  
   useEffect(() => {
     if (!hasConfirmedRef.current) {
       checkAndConfirmTransaction();
       hasConfirmedRef.current = true; // Marcamos que ya se ha confirmado para evitar repetición
     }
   }, []);
-
+  
   async function checkAndConfirmTransaction() {
     const status = await getTransactionStatus(reference);
-
+    
     if (status !== TransactionStatus.Approved && status !== TransactionStatus.Rejected) {
       const confirmTransactionPayload = createConfirmTransactionPayload(reference, TransactionStatus.Approved);
       await confirmTransaction(confirmTransactionPayload);
     }
-
+    
     // Esperamos 1 segundo para verificar el estado final
     setTimeout(async () => {
       const updatedStatus = await getTransactionStatus(reference);
@@ -38,7 +40,8 @@ export function PaymentStatus() {
       setLoading(false);
     }, 1000);
   }
-
+  
+  clearCart();// borramos el carrito a nivel de local storage
   if(isLoading){
     return <Loader></Loader>
   }
