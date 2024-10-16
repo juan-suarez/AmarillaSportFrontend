@@ -42,11 +42,11 @@ export function PaymentForm({
           <InputField label="Name" id="name" placeholder="John Doe" value={contactInfo.name} onChange={handleInputChange} onFocus={handleInputFocus} />
         </div>
         <div className="space-y-2 mb-4">
-          <InputField label="Card Number" id="number" placeholder="0000 0000 0000 0000" value={paymentInfo.number} onChange={handleInputChange} onFocus={handleInputFocus} />
+          <InputField label="Card Number" id="number" placeholder="0000 0000 0000 0000" value={paymentInfo.number} onChange={handleInputChange} onFocus={handleInputFocus} required pattern="^\d{13,19}$" title="El número de tarjeta debe contener entre 13 y 19 dígitos"/>
         </div>
         <div className="grid grid-cols-2 gap-6 mb-4">
-          <InputField label="Expiration Date" id="expiry" placeholder="MM/YY" value={paymentInfo.expiry} onChange={handleInputChange} onFocus={handleInputFocus} />
-          <InputField label="CVC" id="cvc" placeholder="123" required value={paymentInfo.cvc} onChange={handleInputChange} onFocus={handleInputFocus} />
+          <InputField label="Expiration Date" id="expiry" placeholder="MM/YY" value={paymentInfo.expiry} onChange={handleInputChange} onFocus={handleInputFocus} required pattern="(0[1-9]|1[0-2])\/(2[4-9]|[3-9][0-9])" title="Usa un formato valido: MM/YY"/>
+          <InputField label="CVC" id="cvc" placeholder="123" required value={paymentInfo.cvc} onChange={handleInputChange} onFocus={handleInputFocus} pattern="^\d{3,4}$" title="El código CVC debe tener 3 o 4 dígitos"/>
         </div>
       </CardContent>
     </Card>

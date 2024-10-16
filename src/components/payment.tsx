@@ -25,7 +25,11 @@ export function Payment() {
       contactInfo.phone.trim() !== "" &&
       paymentInfo.number.trim() !== "" &&
       paymentInfo.expiry.trim() !== "" &&
-      paymentInfo.cvc.trim().length === 3;
+      paymentInfo.expiry.trim().length === 5 &&
+      paymentInfo.number.trim().length >= 13 &&
+      paymentInfo.number.trim().length <= 19 &&
+      paymentInfo.cvc.trim().length >= 3 &&
+      paymentInfo.cvc.trim().length <= 4 ;
     setIsFormValid(isValid);
   }, [formState]);
 
@@ -80,16 +84,18 @@ interface InputFieldProps {
   placeholder: string;
   required?: boolean;
   type?: string;
+  pattern?:string;
+  title?: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-export function InputField({ label, id, ...props }: InputFieldProps) {
+export function InputField({ label, id, pattern, ...props }: InputFieldProps) {
   return (
     <div className="space-y-2">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} {...props} />
+      <Input id={id} {...props} pattern={pattern}/>
     </div>
   );
 }
