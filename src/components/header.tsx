@@ -8,16 +8,16 @@ import Image from "next/image"
 
 export function Header() {
   return (
-    <header className="flex h-16 w-full shrink-0 items-center px-4 md:px-6 bg-primary text-primary-foreground">
+    <header className="flex h-16 w-full shrink-0 items-start px-4 md:px-6 bg-primary text-primary-foreground pt-4">
       <Link href="#" className="flex items-center justify-center" prefetch={false}>
-        <Image src="/logo.png" alt="Logo" width={180} height={100}/>
+        <Image src="/logo.png" alt="Logo" width={180} height={100} className=""/>
         <span className="sr-only">Acme Sportswear</span>
       </Link>
       <div className="ml-auto flex items-center gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
-              <Avatar className="h-10 w-10" >
+              <Avatar className="h-10 w-10">
                 <AvatarImage src="/placeholder-user.png" />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
@@ -51,7 +51,7 @@ export function Header() {
   )
 }
 
-function MountainIcon(props:any) {
+function MountainIcon(props: any) {
   return (
     <svg
       {...props}
